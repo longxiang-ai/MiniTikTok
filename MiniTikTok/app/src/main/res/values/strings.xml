@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MiniTikTok</string>
     <string name="search">Search</string>
+    <string name="searchfragment">SearchFragment</string>
 </resources>
