@@ -1,6 +1,7 @@
 package com.example.minitiktok;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,8 +15,11 @@ public class MainActivity extends AppCompatActivity {
 
     protected Button btn_post;
     protected Button btn_search;
-//    protected Button btn_
-    String TAG = "MainActivity";
+
+    private static final String TAG = "MainActivity";
+    private RecyclerView recyclerView;
+    private MyAdapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
