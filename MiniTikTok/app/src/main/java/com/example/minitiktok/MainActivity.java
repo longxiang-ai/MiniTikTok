@@ -15,12 +15,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements MyAdapter.IOnItemClickListener{
 
     protected Button btn_post;
-    protected Button btn_search;
+    protected ImageButton btn_search;
 
     private static final String TAG = "MainActivity";
     private RecyclerView recyclerView;
