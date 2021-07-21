@@ -10,11 +10,19 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.minitiktok.ui.data.CoverData;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private List<CoverData> coverDataset = new ArrayList<>();
+    private List<VideoMessage> data;
+    // 对外保留set方法，以保证从网络拉取时能够正常获得
+    public void setData(List<VideoMessage> messageList){
+        data = messageList;
+        notifyDataSetChanged();
+    }
     private IOnItemClickListener mItemClickListener;
 
     @Override
@@ -91,6 +99,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView tvIndex;
         private TextView tvTitle;
+        private TextView tvPoster;
         private TextView tvHot;
         private View contentView;
 
@@ -100,12 +109,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             contentView = v;
             tvIndex = v.findViewById(R.id.tv_index);
             tvTitle = v.findViewById(R.id.tv_title);
+            tvPoster = v.findViewById(R.id.tv_poster);
             tvHot = v.findViewById(R.id.tv_hot);
         }
 
         public void onBind(int position, CoverData data) {
             tvIndex.setText(new StringBuilder().append(position).append(".  ").toString());
             tvTitle.setText(data.title);
+            tvPoster.setText(data.poster);
             tvHot.setText(data.hot);
             if (position < 3) {
 //                tvIndex.setTextColor(Color.RED);
