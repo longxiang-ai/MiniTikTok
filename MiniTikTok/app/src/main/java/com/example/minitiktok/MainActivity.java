@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
         //创建格网布局管理器
         gridLayoutManager = new GridLayoutManager(this, 2);
         //设置布局管理器
-//        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         //创建Adapter
         mAdapter = new MyVideoAdapter();

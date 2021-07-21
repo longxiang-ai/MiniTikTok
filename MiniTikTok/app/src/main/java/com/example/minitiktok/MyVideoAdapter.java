@@ -94,7 +94,7 @@ public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoVie
             //设置图片的相对于屏幕的宽高比
             int width = getScreenWidth(contentView.getContext());
             params.width = width/2;
-            params.height = (int) (300 + Math.random() * 200) ;
+            params.height = (int) (200 + Math.random() * 500) ;
             iv_video_cover.setLayoutParams(params);
             Log.d("屏幕宽高", "onBind: "+"width:"+params.width+",height:"+params.height);
             // 显示图片
