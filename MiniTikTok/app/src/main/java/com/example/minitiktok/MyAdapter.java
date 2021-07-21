@@ -17,6 +17,12 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private List<CoverData> coverDataset = new ArrayList<>();
+    private List<VideoMessage> data;
+    // 对外保留set方法，以保证从网络拉取时能够正常获得
+    public void setData(List<VideoMessage> messageList){
+        data = messageList;
+        notifyDataSetChanged();
+    }
     private IOnItemClickListener mItemClickListener;
 
     @Override

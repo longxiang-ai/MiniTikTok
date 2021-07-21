@@ -1,5 +1,6 @@
 package com.example.minitiktok;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -8,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -16,6 +19,17 @@ import android.widget.Toast;
 
 import com.example.minitiktok.ui.data.CoverData;
 import com.example.minitiktok.ui.data.CoverDataSet;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+
+import static com.example.minitiktok.Constants.BASE_URL;
 
 public class MainActivity extends AppCompatActivity implements MyAdapter.IOnItemClickListener{
 
@@ -60,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.IOnItem
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setAddDuration(3000);
         recyclerView.setItemAnimator(animator);
+        // ----------------------------拉取信息-------------------
+        getData(null);
     }
 
     private void initButtons() {
@@ -94,5 +110,73 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.IOnItem
     public void onItemLongCLick(int position, CoverData data) {
         Toast.makeText(MainActivity.this, "长按了第" + position + "条", Toast.LENGTH_SHORT).show();
 //        mAdapter.removeData(position);
+    }
+
+
+    private void getData(String studentId){
+        Log.i("getData","尝试获取Data1");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("getData","尝试获取Data2");
+                final VideoListResponse response = getDataFromInternet(studentId);
+                if(response != null)
+                {
+                    new Handler(getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.setData(response.feeds);
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+    // TODO 用HttpUrlConnection获取数据
+    private VideoListResponse getDataFromInternet(String studentId) {
+        Log.i("getDataFromInternet","尝试获取Internet Data,StudentID="+studentId);
+        String urlStr;
+        if (studentId != null)
+        {
+            urlStr = BASE_URL+"/video"+"?student_id="+studentId;
+        }
+        else
+        {
+            urlStr = BASE_URL+"/video";
+        }
+        VideoListResponse result = null;
+        try {
+            URL url = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("accept",Constants.token);
+            if (conn.getResponseCode() == 200)
+            {
+                InputStream in = conn.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+                result = new Gson().fromJson(reader, new TypeToken<VideoListResponse>(){}.getType());
+                reader.close();
+                in.close();
+            }
+            else
+            {
+                Exception exception = new Exception("网络未知错误");
+                conn.disconnect();
+                throw exception;
+            }
+            conn.disconnect();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this, "网络异常" + e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        return result;
     }
 }
