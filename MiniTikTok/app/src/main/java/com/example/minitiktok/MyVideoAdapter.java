@@ -27,16 +27,35 @@ public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoVie
         void onItemLongCLick(int position, VideoMessage data);
     }
 
-    @NonNull
+
     @Override
-    public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View root =LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item,parent,false);
-        return new VideoViewHolder(root);
+    public MyVideoAdapter.VideoViewHolder onCreateViewHolder(ViewGroup parent,
+                                                     int viewType) {
+        return new VideoViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        holder.bind(data.get(position));
+    public void onBindViewHolder(VideoViewHolder holder, final int position) {
+        holder.onBind(position, data.get(position));
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemCLick(position, data.get(position));
+                }
+            }
+        });
+        holder.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemLongCLick(position, data.get(position));
+                }
+                return false;
+            }
+
+        });
     }
 
     @Override
@@ -64,9 +83,15 @@ public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoVie
             tv_title = itemView.findViewById(R.id.tv_title);
             iv_video_cover = itemView.findViewById(R.id.video_cover);
         }
-        public void bind(VideoMessage videoMessage){
-//            iv_video_cover.setImageURI(Uri.parse(videoMessage.getImageUrl()));
-            Glide.with(contentView).load(videoMessage.getImageUrl()).into(iv_video_cover);
+        public void onBind(int position ,VideoMessage videoMessage){
+            // 显示图片
+            Glide.with(contentView)
+                    .load(videoMessage.getImageUrl())
+                    .placeholder(R.drawable.btn_post_image) // 兜底占位图
+                    .error(R.drawable.btn_post_image)       // 加载错误图
+                    .fallback(R.drawable.btn_post_image)    // loading图片
+                    .into(iv_video_cover)
+            ;
             tv_title.setText(videoMessage.getUser_name()+"发布的作品");
             tv_poster.setText(videoMessage.getUser_name());
             tv_hot.setText("1111w");

@@ -1,25 +1,20 @@
 package com.example.minitiktok;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.app.Activity;
+
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.minitiktok.ui.data.CoverData;
-import com.example.minitiktok.ui.data.CoverDataSet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -100,22 +95,17 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
 
     @Override
     public void onItemCLick(int position, VideoMessage data) {
-        Toast.makeText(MainActivity.this, "点击了第" + position + "条", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onItemCLick: 尝试点击该item");
+        Toast.makeText(MainActivity.this, "点击了第" + (position+1) + "条", Toast.LENGTH_SHORT).show();
 //        mAdapter.addData(position + 1, new CoverData("新增头条", "0w"));
     }
 
     @Override
     public void onItemLongCLick(int position, VideoMessage data) {
-        Toast.makeText(MainActivity.this, "长按了第" + position + "条", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "长按了第" + (position+1) + "条", Toast.LENGTH_SHORT).show();
 //        mAdapter.removeData(position);
     }
 
-    public interface IOnItemClickListener {
-
-        void onItemCLick(int position, VideoMessage data);
-
-        void onItemLongCLick(int position, VideoMessage data);
-    }
 
 
     private void getData(String studentId){
