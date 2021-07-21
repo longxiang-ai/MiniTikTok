@@ -100,7 +100,12 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
     public void onItemCLick(int position, VideoMessage data) {
         Log.d(TAG, "onItemCLick: 尝试点击该item");
         Toast.makeText(MainActivity.this, "点击了第" + (position+1) + "条", Toast.LENGTH_SHORT).show();
-//        mAdapter.addData(position + 1, new CoverData("新增头条", "0w"));
+        Intent intent = new Intent(MainActivity.this,PlayActivity.class);
+        // 将被点击的video url传递给playactivity
+        intent.putExtra("data",data.getVideoUrl());
+        // TODO 需要在playActivity中用 Intent intent=getIntent(); String VideoUrl=intent.getStringExtra("data");
+        // 来打开对应的VideoUrl数据
+        startActivity(intent);
     }
 
     @Override
@@ -130,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
             }
         }).start();
     }
-    // TODO 用HttpUrlConnection获取数据
     private VideoListResponse getDataFromInternet(String studentId) {
         Log.i("getDataFromInternet","尝试获取Internet Data,StudentID="+studentId);
         String urlStr;
