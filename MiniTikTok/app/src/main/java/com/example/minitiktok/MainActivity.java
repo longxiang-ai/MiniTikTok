@@ -1,6 +1,9 @@
 package com.example.minitiktok;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -8,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -25,11 +30,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.minitiktok.Constants.BASE_URL;
 
 public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IOnItemClickListener{
-
+    private final static int PERMISSION_REQUEST_CODE = 1001;
     protected ImageButton btn_post;
     protected ImageButton btn_search;
 
@@ -79,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
         btn_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 动态获取权限
+                requestPermission();
                 Intent intent = new Intent(MainActivity.this,PostActivity.class);
                 Log.d(TAG,"跳转至PostActivity");
                 startActivity(intent);
@@ -112,8 +121,6 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
         Toast.makeText(MainActivity.this, "长按了第" + (position+1) + "条", Toast.LENGTH_SHORT).show();
 //        mAdapter.removeData(position);
     }
-
-
 
     private void getData(String studentId){
         Log.i("getData","尝试获取Data1");
@@ -179,5 +186,44 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
             });
         }
         return result;
+    }
+
+    private void recordVideo() {
+        PostActivity.startUI(this);
+    }
+
+    private void requestPermission() {
+        boolean hasCameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+        boolean hasAudioPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+        if (hasCameraPermission && hasAudioPermission) {
+            recordVideo();
+        } else {
+            List<String> permission = new ArrayList<String>();
+            if (!hasCameraPermission) {
+                permission.add(Manifest.permission.CAMERA);
+            }
+            if (!hasAudioPermission) {
+                permission.add(Manifest.permission.RECORD_AUDIO);
+            }
+            ActivityCompat.requestPermissions(this, permission.toArray(new String[permission.size()]), PERMISSION_REQUEST_CODE);
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasPermission = true;
+        for (int grantResult : grantResults) {
+            if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                hasPermission = false;
+                break;
+            }
+        }
+        if (hasPermission) {
+            recordVideo();
+        } else {
+            Toast.makeText(this, "权限获取失败", Toast.LENGTH_SHORT).show();
+        }
     }
 }
