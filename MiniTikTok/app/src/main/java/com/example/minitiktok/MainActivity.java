@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -55,7 +56,8 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
         //创建格网布局管理器
         gridLayoutManager = new GridLayoutManager(this, 2);
         //设置布局管理器
-        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         //创建Adapter
         mAdapter = new MyVideoAdapter();
         //设置Adapter每个item的点击事件
@@ -63,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
         //设置Adapter
         recyclerView.setAdapter(mAdapter);
 
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+//        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, StaggeredGridLayoutManager.VERTICAL));
         //动画
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setAddDuration(3000);

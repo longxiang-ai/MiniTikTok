@@ -3,18 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="wrap_content"
 >
     <ImageView
         android:id="@+id/video_cover"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/tiktok_cover"
-
-        tools:layout_editor_absoluteX="149dp"
-        tools:layout_editor_absoluteY="4dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:contentDescription="@string/video_cover_description" />
 
     <TextView
         android:id="@+id/tv_poster"

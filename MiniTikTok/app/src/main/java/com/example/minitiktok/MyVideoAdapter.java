@@ -1,9 +1,13 @@
 package com.example.minitiktok;
 
+import android.content.Context;
 import android.net.Uri;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -86,9 +90,18 @@ public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoVie
             iv_video_cover = itemView.findViewById(R.id.video_cover);
         }
         public void onBind(int position ,VideoMessage videoMessage){
+            ViewGroup.LayoutParams params = iv_video_cover.getLayoutParams();
+            //设置图片的相对于屏幕的宽高比
+            int width = getScreenWidth(contentView.getContext());
+            params.width = width/2;
+            params.height = (int) (300 + Math.random() * 200) ;
+            iv_video_cover.setLayoutParams(params);
+            Log.d("屏幕宽高", "onBind: "+"width:"+params.width+",height:"+params.height);
             // 显示图片
+            // TODO 寻找合适的占位图片等
             Glide.with(contentView)
                     .load(videoMessage.getImageUrl())
+                    .centerCrop()
                     .placeholder(R.drawable.btn_post_image) // 兜底占位图
                     .error(R.drawable.btn_post_image)       // 加载错误图
                     .fallback(R.drawable.btn_post_image)    // loading图片
@@ -98,8 +111,16 @@ public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoVie
             tv_title.setText(videoMessage.getUser_name()+"发布的作品");
             tv_poster.setText(videoMessage.getUser_name());
             tv_hot.setText(videoMessage.getCreatedAt().toString());
-
         }
+
+        private static int getScreenWidth(Context context) {
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            DisplayMetrics dm = new DisplayMetrics();
+            // 从默认显示器中获取显示参数保存到dm对象中
+            wm.getDefaultDisplay().getMetrics(dm);
+            return dm.widthPixels;
+        }
+
         public void setOnClickListener(View.OnClickListener listener) {
             if (listener != null) {
                 contentView.setOnClickListener(listener);
