@@ -32,14 +32,14 @@ import java.nio.charset.StandardCharsets;
 
 import static com.example.minitiktok.Constants.BASE_URL;
 
-public class MainActivity extends AppCompatActivity implements MyAdapter.IOnItemClickListener{
+public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IOnItemClickListener{
 
     protected ImageButton btn_post;
     protected ImageButton btn_search;
 
     private static final String TAG = "MainActivity";
     private RecyclerView recyclerView;
-    private MyAdapter mAdapter;
+    private MyVideoAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private GridLayoutManager gridLayoutManager;
     @Override
@@ -62,14 +62,12 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.IOnItem
         //设置布局管理器
         recyclerView.setLayoutManager(layoutManager);
         //创建Adapter
-        mAdapter = new MyAdapter(CoverDataSet.getData());
+        mAdapter = new MyVideoAdapter();
         //设置Adapter每个item的点击事件
         mAdapter.setOnItemClickListener(this);
         //设置Adapter
         recyclerView.setAdapter(mAdapter);
-        //分割线
-//        LinearItemDecoration itemDecoration = new LinearItemDecoration(Color.BLUE);
-//        recyclerView.addItemDecoration(itemDecoration);
+
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         //动画
         DefaultItemAnimator animator = new DefaultItemAnimator();
@@ -100,17 +98,23 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.IOnItem
         });
     }
 
-
     @Override
-    public void onItemCLick(int position, CoverData data) {
+    public void onItemCLick(int position, VideoMessage data) {
         Toast.makeText(MainActivity.this, "点击了第" + position + "条", Toast.LENGTH_SHORT).show();
 //        mAdapter.addData(position + 1, new CoverData("新增头条", "0w"));
     }
 
     @Override
-    public void onItemLongCLick(int position, CoverData data) {
+    public void onItemLongCLick(int position, VideoMessage data) {
         Toast.makeText(MainActivity.this, "长按了第" + position + "条", Toast.LENGTH_SHORT).show();
 //        mAdapter.removeData(position);
+    }
+
+    public interface IOnItemClickListener {
+
+        void onItemCLick(int position, VideoMessage data);
+
+        void onItemLongCLick(int position, VideoMessage data);
     }
 
 
