@@ -1,4 +1,4 @@
-package com.example.minitiktok;
+package com.example.minitiktok.ui.data;
 
 
 import java.util.ArrayList;

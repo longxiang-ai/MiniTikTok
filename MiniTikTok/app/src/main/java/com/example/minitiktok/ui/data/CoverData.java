@@ -1,8 +1,8 @@
-package com.example.minitiktok;
+package com.example.minitiktok.ui.data;
 
 public class CoverData {
-    String title;
-    String hot;
+    public String title;
+    public String hot;
 
     public CoverData(String title, String hot) {
         this.title = title;

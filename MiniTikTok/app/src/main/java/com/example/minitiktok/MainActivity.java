@@ -7,20 +7,19 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.minitiktok.ui.data.CoverData;
+import com.example.minitiktok.ui.data.CoverDataSet;
+
 public class MainActivity extends AppCompatActivity implements MyAdapter.IOnItemClickListener{
 
-    protected Button btn_post;
+    protected ImageButton btn_post;
     protected ImageButton btn_search;
 
     private static final String TAG = "MainActivity";
@@ -64,15 +63,15 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.IOnItem
     }
 
     private void initButtons() {
-//        btn_post = findViewById(R.id.btn_play);
-//        btn_post.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this,PostActivity.class);
-//                Log.d(TAG,"跳转至PostActivity");
-//                startActivity(intent);
-//            }
-//        });
+        btn_post = findViewById(R.id.btn_post);
+        btn_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,PostActivity.class);
+                Log.d(TAG,"跳转至PostActivity");
+                startActivity(intent);
+            }
+        });
         btn_search = findViewById(R.id.btn_search);
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.IOnItem
     @Override
     public void onItemCLick(int position, CoverData data) {
         Toast.makeText(MainActivity.this, "点击了第" + position + "条", Toast.LENGTH_SHORT).show();
-        mAdapter.addData(position + 1, new CoverData("新增头条", "0w"));
+//        mAdapter.addData(position + 1, new CoverData("新增头条", "0w"));
     }
 
     @Override
