@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoViewHolder> {
     private List<VideoMessage> data;
     private IOnItemClickListener mItemClickListener;
@@ -90,11 +92,12 @@ public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoVie
                     .placeholder(R.drawable.btn_post_image) // 兜底占位图
                     .error(R.drawable.btn_post_image)       // 加载错误图
                     .fallback(R.drawable.btn_post_image)    // loading图片
+                    .transition(withCrossFade())
                     .into(iv_video_cover)
             ;
             tv_title.setText(videoMessage.getUser_name()+"发布的作品");
             tv_poster.setText(videoMessage.getUser_name());
-            tv_hot.setText("1111w");
+            tv_hot.setText(videoMessage.getCreatedAt().toString());
 
         }
         public void setOnClickListener(View.OnClickListener listener) {
