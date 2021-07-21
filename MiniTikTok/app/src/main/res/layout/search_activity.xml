@@ -14,7 +14,7 @@
 
         <EditText
             android:id="@+id/search_text"
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="match_parent"
             android:hint="搜索内容"
             app:layout_constraintLeft_toLeftOf="parent"

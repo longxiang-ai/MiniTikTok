@@ -108,8 +108,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             tvTitle.setText(data.title);
             tvHot.setText(data.hot);
             if (position < 3) {
+//                tvIndex.setTextColor(Color.RED);
                 tvIndex.setTextColor(Color.parseColor("#FFD700"));
             } else {
+//                tvIndex.setTextColor(Color.YELLOW);
                 tvIndex.setTextColor(Color.parseColor("#FFFFFF"));
             }
         }
