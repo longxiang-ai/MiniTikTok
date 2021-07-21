@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.IOnItem
     @Override
     public void onItemCLick(int position, CoverData data) {
         Toast.makeText(MainActivity.this, "点击了第" + position + "条", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this,PlayActivity.class) ;
+        startActivity(intent);
 //        mAdapter.addData(position + 1, new CoverData("新增头条", "0w"));
     }
 
