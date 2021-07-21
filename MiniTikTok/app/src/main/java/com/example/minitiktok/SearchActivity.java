@@ -53,8 +53,8 @@ public class SearchActivity extends AppCompatActivity implements MyAdapter.IOnIt
     }
     @Override
     public void onItemCLick(int position, TestData data) {
-        Toast.makeText(SearchActivity.this, "点击了第" + position + "条", Toast.LENGTH_SHORT).show();
-        mAdapter.addData(position + 1, new TestData("新增头条", "0w"));
+        Toast.makeText(SearchActivity.this, "点击了第" + (position+1) + "条", Toast.LENGTH_SHORT).show();
+//        mAdapter.addData(position + 1, new TestData("新增头条", "0w"));
     }
 
 //    @Override
