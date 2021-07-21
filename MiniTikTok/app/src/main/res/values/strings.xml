@@ -4,4 +4,6 @@
     <string name="searchfragment">SearchFragment</string>
     <string name="post">上传</string>
     <string name="video_cover_description">显示封面图</string>
+    <string name="take_photo">拍照</string>
+    <string name="record">录像</string>
 </resources>
