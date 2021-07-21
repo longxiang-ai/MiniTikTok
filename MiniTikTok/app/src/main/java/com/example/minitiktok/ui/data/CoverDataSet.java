@@ -8,8 +8,8 @@ public class CoverDataSet {
 
     public static List<CoverData> getData() {
         List<CoverData> result = new ArrayList();
-        result.add(new CoverData("让人忘记原唱的歌手", "524.6w"));
-        result.add(new CoverData("林丹退役", "433.6w"));
+        result.add(new CoverData("让人忘记原唱的歌手", "524.6w","张三"));
+        result.add(new CoverData("林丹退役", "433.6w","李四"));
         result.add(new CoverData("你在教我做事？", "357.8w"));
         result.add(new CoverData("投身乡村教育的燃灯者", "333.6w"));
         result.add(new CoverData("暑期嘉年华", "285.6w"));
