@@ -82,6 +82,7 @@ public class UploadActivity extends AppCompatActivity {
             }
         });
 
+        //点击提交隐藏按钮和展示加载动画
         findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

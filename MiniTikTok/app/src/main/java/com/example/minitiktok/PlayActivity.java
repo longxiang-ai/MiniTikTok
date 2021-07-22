@@ -70,6 +70,7 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
                 }
             }
         });
+        //长按点赞
         videoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -86,7 +87,7 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
             }
         });
     }
-
+    //退出当前播放页面到首页
     private void exitMain(){
         exit = findViewById(R.id.play_exit) ;
         exit.setOnClickListener(new View.OnClickListener(){
@@ -97,6 +98,7 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
             }
         });
     }
+    //加载播放界面下方的播放列表
     private void watchlist(){
         recyclerView = findViewById(R.id.play_recycler);
         //更改数据时不会变更宽高
