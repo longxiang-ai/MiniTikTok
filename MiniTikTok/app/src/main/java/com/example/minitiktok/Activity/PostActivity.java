@@ -44,7 +44,8 @@ public class PostActivity extends AppCompatActivity implements SurfaceHolder.Cal
         private String mp4Path = "";
 
         // 计时器部分
-        private int i = 3;
+        private static final int TOTAL_SECOND = 10;
+        private int i = TOTAL_SECOND;
         private Timer timer = null;
         private TimerTask task = null;
         private Handler mHandler = new Handler() {
