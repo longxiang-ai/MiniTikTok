@@ -11,6 +11,8 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -26,6 +28,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PostActivity extends AppCompatActivity implements SurfaceHolder.Callback{
         private SurfaceView mSurfaceView;
@@ -38,6 +42,18 @@ public class PostActivity extends AppCompatActivity implements SurfaceHolder.Cal
         private boolean isRecording = false;
         private static String TAG = "PostActivity";
         private String mp4Path = "";
+
+        // 计时器部分
+        private int i = 3;
+        private Timer timer = null;
+        private TimerTask task = null;
+        private Handler mHandler = new Handler() {
+            public void handleMessage(Message msg) {
+//                Toast.makeText(PostActivity.this,i+"",Toast.LENGTH_SHORT).show();
+                mRecordButton.setText(i+"");
+                startTime();
+            }
+        };
 
         public static void startUI(Context context) {
             Intent intent = new Intent(context, PostActivity.class);
@@ -137,40 +153,87 @@ public class PostActivity extends AppCompatActivity implements SurfaceHolder.Cal
         }
 
 
+    public void startTime() {
+        timer = new Timer();
+        task = new TimerTask() {
+
+            @Override
+            public void run() {
+                if (i > 0) {   //加入判断不能小于0
+                    i--;
+                    Message message = mHandler.obtainMessage();
+                    message.arg1 = i;
+                    mHandler.sendMessage(message);
+                }
+                else
+                {
+                    Log.d(TAG, "run: 在尝试改了在尝试改了");
+                    stopTime();
+                    try {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                stopRecord();
+                            }
+                        });
+
+                    }
+                    catch (Exception e)
+                    {
+                        Log.d(TAG, "run: 改出bug了"+e.toString());
+                    }
+//                    isRecording = !isRecording;
+                }
+            }
+        };
+        timer.schedule(task, 1000);
+    }
+
+    public void stopTime(){
+        timer.cancel();
+    }
+
         public void record(View view) {
             if (!isRecording) {
                 if(prepareVideoRecorder())
                 {
                     mRecordButton.setText("停止");
                     mMediaRecorder.start();
+                    startTime();
                 }
             } else {
-                // 停止录制
-                mRecordButton.setText("录制");
-                mUploadButton.setVisibility(View.VISIBLE);
-                mRecordButton.setVisibility(View.GONE);
-                Toast.makeText(this,"已经将录制的视频文件保存在"+mp4Path,Toast.LENGTH_SHORT).show();
-                mMediaRecorder.setOnErrorListener(null);
-                mMediaRecorder.setOnInfoListener(null);
-                mMediaRecorder.setPreviewDisplay(null);
-                try {
-                    mMediaRecorder.stop();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                mMediaRecorder.reset();
-                mMediaRecorder.release();
-                mMediaRecorder = null;
-                mCamera.lock();
-                mVideoView.setVisibility(View.VISIBLE);
-
-                mVideoView.setVideoPath(mp4Path);
-                mVideoView.start();
+                Log.d(TAG, "record: 在这里尝试停止录制");
+                stopTime();
+                stopRecord();
             }
             isRecording = !isRecording;
         }
 
-        private boolean prepareVideoRecorder() {
+    private void stopRecord() {
+        // 停止录制
+        mRecordButton.setText("录制");
+        mUploadButton.setVisibility(View.VISIBLE);
+        mRecordButton.setVisibility(View.GONE);
+        Toast.makeText(this,"已经将录制的视频文件保存在"+mp4Path,Toast.LENGTH_SHORT).show();
+        mMediaRecorder.setOnErrorListener(null);
+        mMediaRecorder.setOnInfoListener(null);
+        mMediaRecorder.setPreviewDisplay(null);
+        try {
+            mMediaRecorder.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mMediaRecorder.reset();
+        mMediaRecorder.release();
+        mMediaRecorder = null;
+        mCamera.lock();
+        mVideoView.setVisibility(View.VISIBLE);
+
+        mVideoView.setVideoPath(mp4Path);
+        mVideoView.start();
+    }
+
+    private boolean prepareVideoRecorder() {
             mMediaRecorder = new MediaRecorder();
             // Step 1: Unlock and set camera to MediaRecorder
             mCamera.unlock();
