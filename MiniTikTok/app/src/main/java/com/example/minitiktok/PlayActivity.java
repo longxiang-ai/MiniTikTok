@@ -15,10 +15,12 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -32,11 +34,13 @@ import java.nio.charset.StandardCharsets;
 import static com.example.minitiktok.Constants.BASE_URL;
 
 public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IOnItemClickListener {
+    private String TAG  = "tag in play" ;
 
     String Default_Url = "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4";
     private RecyclerView recyclerView;
     private MyVideoAdapter mAdapter;
-    private Button exit ;
+    private ImageButton exit ;
+    private LottieAnimationView nice;
     private RecyclerView.LayoutManager layoutManager;
     private GridLayoutManager gridLayoutManager;
     VideoView videoView ;
@@ -47,13 +51,37 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
         String VideoUrl=getIntent().getStringExtra("data");
 
         exitMain();
+        watchlist();
 
         videoView = findViewById(R.id.play_video) ;
         videoView.setMediaController(new MediaController(this));
         videoView.setVideoURI(Uri.parse( VideoUrl ));
         videoView.start();
 
-        watchlist();
+
+
+        videoView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.i(TAG, "onLongClick: ");
+                nice = findViewById(R.id.nice_view) ;
+                nice.playAnimation();
+                nice.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        nice.setVisibility(View.INVISIBLE);
+                    }
+                },2000) ;
+                return true;
+            }
+        });
+        
+        videoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick: ");
+            }
+        });
     }
 
     private void exitMain(){

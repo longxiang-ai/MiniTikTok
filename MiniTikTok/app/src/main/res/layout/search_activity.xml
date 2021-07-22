@@ -16,7 +16,7 @@
             android:id="@+id/search_text"
             android:layout_width="280dp"
             android:layout_height="match_parent"
-            android:hint="搜索内容"
+            android:hint="搜索id"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/search_button"/>
         <Button
