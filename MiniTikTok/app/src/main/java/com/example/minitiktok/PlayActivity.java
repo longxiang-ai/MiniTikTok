@@ -15,12 +15,10 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,13 +32,11 @@ import java.nio.charset.StandardCharsets;
 import static com.example.minitiktok.Constants.BASE_URL;
 
 public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IOnItemClickListener {
-    private String TAG  = "tag in play" ;
 
     String Default_Url = "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4";
     private RecyclerView recyclerView;
     private MyVideoAdapter mAdapter;
-    private ImageButton exit ;
-    private LottieAnimationView nice;
+    private Button exit ;
     private RecyclerView.LayoutManager layoutManager;
     private GridLayoutManager gridLayoutManager;
     VideoView videoView ;
@@ -51,37 +47,26 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
         String VideoUrl=getIntent().getStringExtra("data");
 
         exitMain();
-        watchlist();
 
         videoView = findViewById(R.id.play_video) ;
         videoView.setMediaController(new MediaController(this));
         videoView.setVideoURI(Uri.parse( VideoUrl ));
         videoView.start();
-
-
-
-        videoView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Log.i(TAG, "onLongClick: ");
-                nice = findViewById(R.id.nice_view) ;
-                nice.playAnimation();
-                nice.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        nice.setVisibility(View.INVISIBLE);
-                    }
-                },2000) ;
-                return true;
-            }
-        });
-        
+        // 单击播放暂停，再次单击继续播放
         videoView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Log.i(TAG, "onClick: ");
+            public void onClick(View view) {
+                if (videoView.isPlaying())
+                {
+                    videoView.pause();
+                }
+                else
+                {
+                    videoView.start();
+                }
             }
         });
+        watchlist();
     }
 
     private void exitMain(){
@@ -102,7 +87,7 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
         layoutManager = new LinearLayoutManager(this);
         //创建格网布局管理器
         gridLayoutManager = new GridLayoutManager(this, 2);
-        //设置布局管理器
+        //设置布局管理器，瀑布流播放的效果
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         //创建Adapter
         mAdapter = new MyVideoAdapter();
@@ -110,24 +95,19 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
         mAdapter.setOnItemClickListener(this);
         //设置Adapter
         recyclerView.setAdapter(mAdapter);
-
-//        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        //瀑布流播放的效果
         recyclerView.addItemDecoration(new DividerItemDecoration(this, StaggeredGridLayoutManager.VERTICAL));
         //动画
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setAddDuration(3000);
         recyclerView.setItemAnimator(animator);
-        // ----------------------------拉取信息-------------------
         getData(null);
     }
     public void onItemCLick(int position, VideoMessage data) {
-//        Log.d(TAG, "onItemCLick: 尝试点击该item");
         Toast.makeText(PlayActivity.this, "点击了第" + (position+1) + "条", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(PlayActivity.this,PlayActivity.class);
-        // 将被点击的video url传递给playactivity
+        // 将被点击的video url传递给下一层的playactivity
         intent.putExtra("data",data.getVideoUrl());
-        // TODO 需要在playActivity中用 Intent intent=getIntent(); String VideoUrl=intent.getStringExtra("data");
-        // 来打开对应的VideoUrl数据
         startActivity(intent);
     }
     public void onItemLongCLick(int position, VideoMessage data){

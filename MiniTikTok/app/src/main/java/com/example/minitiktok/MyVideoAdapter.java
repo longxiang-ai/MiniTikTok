@@ -19,6 +19,8 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+import static com.facebook.common.internal.Ints.max;
+import static java.lang.Math.min;
 
 public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoViewHolder> {
     private List<VideoMessage> data;
@@ -94,7 +96,7 @@ public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoVie
             //设置图片的相对于屏幕的宽高比
             int width = getScreenWidth(contentView.getContext());
             params.width = width/2;
-            params.height = (int) (200 + Math.random() * 500) ;
+            params.height = max((int) (300 + Math.random() * 500),videoMessage.getImageH()/videoMessage.getImageW()*params.width) ;
             iv_video_cover.setLayoutParams(params);
             Log.d("屏幕宽高", "onBind: "+"width:"+params.width+",height:"+params.height);
             // 显示图片

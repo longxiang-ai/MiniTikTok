@@ -11,6 +11,7 @@ import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
@@ -20,6 +21,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.minitiktok.ui.post.PostFragment;
@@ -152,6 +154,7 @@ public class PostActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 mRecordButton.setText("录制");
                 mUploadButton.setVisibility(View.VISIBLE);
                 mRecordButton.setVisibility(View.GONE);
+                Toast.makeText(this,"已经将录制的视频文件保存在"+mp4Path,Toast.LENGTH_SHORT).show();
                 mMediaRecorder.setOnErrorListener(null);
                 mMediaRecorder.setOnInfoListener(null);
                 mMediaRecorder.setPreviewDisplay(null);
