@@ -16,6 +16,7 @@
         <activity android:name=".Activity.PostActivity"></activity>
         <activity android:name=".Activity.SearchActivity" />
         <activity android:name=".Activity.PlayActivity" />
+        <activity android:name=".Activity.VideoPostActivity"/>
         <activity android:name=".Activity.UploadActivity"
             android:screenOrientation="portrait"
             />
