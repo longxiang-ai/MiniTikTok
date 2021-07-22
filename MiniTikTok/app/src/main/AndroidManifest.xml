@@ -13,13 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostActivity"></activity>
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".PlayActivity" />
-        <activity android:name=".UploadActivity"
+        <activity android:name=".Activity.PostActivity"></activity>
+        <activity android:name=".Activity.SearchActivity" />
+        <activity android:name=".Activity.PlayActivity" />
+        <activity android:name=".Activity.UploadActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".MainActivity"
+        <activity android:name=".Activity.MainActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

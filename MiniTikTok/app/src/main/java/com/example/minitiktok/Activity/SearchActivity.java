@@ -1,4 +1,4 @@
-package com.example.minitiktok;
+package com.example.minitiktok.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,10 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.minitiktok.recycler.LinearItemDecoration;
-//import com.example.minitiktok.recycler.TestData;
-//import com.example.minitiktok.recycler.TestDataSet;
-//import com.example.minitiktok.recycler.MyAdapter;
+import com.example.minitiktok.Constants;
+import com.example.minitiktok.MyVideoAdapter;
+import com.example.minitiktok.R;
+import com.example.minitiktok.VideoListResponse;
+import com.example.minitiktok.VideoMessage;
 import com.example.minitiktok.ui.search.SearchFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,7 +35,7 @@ import java.nio.charset.StandardCharsets;
 
 import static com.example.minitiktok.Constants.BASE_URL;
 
-public class SearchActivity extends AppCompatActivity implements MyVideoAdapter.IOnItemClickListener{
+public class SearchActivity extends AppCompatActivity implements MyVideoAdapter.IOnItemClickListener {
     private static final String TAG = "TAG";
 
     private RecyclerView recyclerView;

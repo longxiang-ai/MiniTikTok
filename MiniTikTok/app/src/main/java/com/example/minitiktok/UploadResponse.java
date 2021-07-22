@@ -1,4 +1,4 @@
-package com.example.minitiktok.API;
+package com.example.minitiktok;
 
 import com.example.minitiktok.VideoMessage;
 import com.google.gson.annotations.SerializedName;

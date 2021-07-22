@@ -1,4 +1,4 @@
-package com.example.minitiktok;
+package com.example.minitiktok.Activity;
 
 
 import android.app.Activity;
@@ -16,8 +16,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import com.example.minitiktok.API.UploadResponse;
+import com.example.minitiktok.UploadResponse;
 import com.example.minitiktok.API.VideoAPI;
+import com.example.minitiktok.R;
+import com.example.minitiktok.Util;
 
 import java.io.File;
 import java.io.InputStream;

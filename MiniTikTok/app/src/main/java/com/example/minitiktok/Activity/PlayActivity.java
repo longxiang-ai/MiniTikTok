@@ -1,10 +1,8 @@
-package com.example.minitiktok;
+package com.example.minitiktok.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -14,13 +12,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.minitiktok.Constants;
+import com.example.minitiktok.MyVideoAdapter;
+import com.example.minitiktok.R;
+import com.example.minitiktok.VideoListResponse;
+import com.example.minitiktok.VideoMessage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -171,7 +173,7 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("accept",Constants.token);
+            conn.setRequestProperty("accept", Constants.token);
             if (conn.getResponseCode() == 200)
             {
                 InputStream in = conn.getInputStream();

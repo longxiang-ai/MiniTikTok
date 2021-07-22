@@ -1,4 +1,4 @@
-package com.example.minitiktok;
+package com.example.minitiktok.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,11 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.minitiktok.Constants;
+import com.example.minitiktok.MyVideoAdapter;
+import com.example.minitiktok.R;
+import com.example.minitiktok.VideoListResponse;
+import com.example.minitiktok.VideoMessage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,7 +38,7 @@ import java.util.List;
 
 import static com.example.minitiktok.Constants.BASE_URL;
 
-public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IOnItemClickListener{
+public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IOnItemClickListener {
     private final static int PERMISSION_REQUEST_CODE = 1001;
     protected ImageButton btn_post;
     protected ImageButton btn_search;
@@ -147,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("accept",Constants.token);
+            conn.setRequestProperty("accept", Constants.token);
             if (conn.getResponseCode() == 200)
             {
                 InputStream in = conn.getInputStream();
