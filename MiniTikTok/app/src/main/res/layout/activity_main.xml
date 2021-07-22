@@ -26,9 +26,9 @@
             android:id="@+id/btn_post"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/btn_post_image"
+            android:src="@drawable/button_post2"
             android:scaleType="fitXY"
-            android:background="@color/colorAccent"
+            android:background="#00000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -40,20 +40,20 @@
             android:id="@+id/btn_video"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/hload_post"
+            android:src="@drawable/btn_video_post"
             android:scaleType="fitXY"
-            android:background="@color/colorAccent"/>
+            android:background="#00000000"/>
 
     </LinearLayout>
 
 
     <ImageButton
         android:id="@+id/btn_search"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
 
-        android:src="@drawable/btn_search_image"
-        android:background="@color/colorAccent"
+        android:src="@drawable/btn_search_button2"
+        android:background="@android:color/transparent"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.978"

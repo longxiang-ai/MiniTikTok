@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
 
     private void initButtons() {
         btn_post = findViewById(R.id.btn_post);
+        btn_post.getBackground().setAlpha(0);
         btn_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
             }
         });
         btn_video = findViewById(R.id.btn_video) ;
+        btn_video.getBackground().setAlpha(100);
         btn_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
             }
         });
         btn_search = findViewById(R.id.btn_search);
+        btn_search.getBackground().setAlpha(100);
+        btn_search.setBackgroundColor(Color.TRANSPARENT) ;
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
