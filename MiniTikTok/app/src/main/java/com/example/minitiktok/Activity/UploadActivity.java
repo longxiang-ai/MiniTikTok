@@ -74,14 +74,14 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submit();
-                BTN_COVER = findViewById(R.id.btn_cover) ;
-                BTN_SUBMIT = findViewById(R.id.btn_submit) ;
-                BTN_COVER.setVisibility(View.GONE);
-                BTN_SUBMIT.setVisibility(View.GONE);
-                View loading = findViewById(R.id.lottie_view) ;
-                loading.setVisibility(View.VISIBLE);
-                View text = findViewById(R.id.loading) ;
-                text.setVisibility(View.VISIBLE);
+//                BTN_COVER = findViewById(R.id.btn_cover) ;
+//                BTN_SUBMIT = findViewById(R.id.btn_submit) ;
+//                BTN_COVER.setVisibility(View.GONE);
+//                BTN_SUBMIT.setVisibility(View.GONE);
+//                View loading = findViewById(R.id.lottie_view) ;
+//                loading.setVisibility(View.VISIBLE);
+//                View text = findViewById(R.id.loading) ;
+//                text.setVisibility(View.VISIBLE);
             }
         });
         // ------------------------------ 选择视频路径 -------------------------------
@@ -165,6 +165,16 @@ public class UploadActivity extends AppCompatActivity {
                     if (repoList == null) {
                         return;
                     }
+                    //提交成功改变画面
+                    BTN_COVER = findViewById(R.id.btn_cover) ;
+                    BTN_SUBMIT = findViewById(R.id.btn_submit) ;
+                    BTN_COVER.setVisibility(View.GONE);
+                    BTN_SUBMIT.setVisibility(View.GONE);
+                    View loading = findViewById(R.id.lottie_view) ;
+                    loading.setVisibility(View.VISIBLE);
+                    View text = findViewById(R.id.loading) ;
+                    text.setVisibility(View.VISIBLE);
+
                     Toast.makeText(UploadActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
                     // 上传完成后略微延迟再返回MainActivity，替换原先的finish
                     Handler handler=new Handler();
@@ -175,7 +185,7 @@ public class UploadActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     };
-                    handler.postDelayed(runnable, 2000);
+                    handler.postDelayed(runnable, 1000);
                 }
                 @Override
                 public void onFailure(final Call<UploadResponse> call, final Throwable t) {
