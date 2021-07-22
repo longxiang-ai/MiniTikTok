@@ -74,16 +74,22 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
         videoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                nice = findViewById(R.id.nice_view) ;
-                nice.setVisibility(View.VISIBLE);
-                nice.playAnimation();
-                nice.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        nice.setVisibility(View.INVISIBLE);
-                    }
-                },2000);
-                return true;
+                try {
+                    nice = findViewById(R.id.nice_view) ;
+                    nice.setVisibility(View.VISIBLE);
+                    nice.playAnimation();
+                    nice.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            nice.setVisibility(View.INVISIBLE);
+                        }
+                    },2000);
+                    return true;
+                }catch (Exception e)
+                {
+                    Toast.makeText(PlayActivity.this,"点赞出现问题"+e.toString(),Toast.LENGTH_SHORT).show();;
+                    return false;
+                }
             }
         });
     }

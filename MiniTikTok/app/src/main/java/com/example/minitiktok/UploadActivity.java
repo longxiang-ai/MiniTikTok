@@ -218,6 +218,5 @@ public class UploadActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        Toast.makeText(this,"上传成功！",Toast.LENGTH_SHORT).show();
     }
 }
