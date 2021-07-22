@@ -98,7 +98,6 @@ public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoVie
             iv_video_cover.setLayoutParams(params);
             Log.d("屏幕宽高", "onBind: "+"width:"+params.width+",height:"+params.height);
             // 显示图片
-            // TODO 寻找合适的占位图片等
             Glide.with(contentView)
                     .load(videoMessage.getImageUrl())
                     .centerCrop()

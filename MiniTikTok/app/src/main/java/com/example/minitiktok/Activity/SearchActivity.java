@@ -3,8 +3,6 @@ package com.example.minitiktok.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -22,7 +20,6 @@ import com.example.minitiktok.MyVideoAdapter;
 import com.example.minitiktok.R;
 import com.example.minitiktok.VideoListResponse;
 import com.example.minitiktok.VideoMessage;
-import com.example.minitiktok.ui.search.SearchFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,18 +39,12 @@ public class SearchActivity extends AppCompatActivity implements MyVideoAdapter.
     private Button search ;
     private EditText editText ;
     private MyVideoAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private GridLayoutManager gridLayoutManager;
+
     private String ExtraValue ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, SearchFragment.newInstance())
-                    .commitNow();
-        }
         watchlist(null);
 
         search = findViewById(R.id.search_button) ;
@@ -73,10 +64,6 @@ public class SearchActivity extends AppCompatActivity implements MyVideoAdapter.
         recyclerView = findViewById(R.id.search_recycler);
         //更改数据时不会变更宽高
         recyclerView.setHasFixedSize(true);
-        //创建线性布局管理器
-        layoutManager = new LinearLayoutManager(this);
-        //创建格网布局管理器
-        gridLayoutManager = new GridLayoutManager(this, 2);
         //设置布局管理器
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         //创建Adapter
@@ -85,8 +72,7 @@ public class SearchActivity extends AppCompatActivity implements MyVideoAdapter.
         mAdapter.setOnItemClickListener(this);
         //设置Adapter
         recyclerView.setAdapter(mAdapter);
-
-//        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        //设置瀑布流效果
         recyclerView.addItemDecoration(new DividerItemDecoration(this, StaggeredGridLayoutManager.VERTICAL));
         //动画
         DefaultItemAnimator animator = new DefaultItemAnimator();
@@ -169,8 +155,6 @@ public class SearchActivity extends AppCompatActivity implements MyVideoAdapter.
         Intent intent = new Intent(SearchActivity.this,PlayActivity.class);
         // 将被点击的video url传递给playactivity
         intent.putExtra("data",data.getVideoUrl());
-        // TODO 需要在playActivity中用 Intent intent=getIntent(); String VideoUrl=intent.getStringExtra("data");
-        // 来打开对应的VideoUrl数据
         startActivity(intent);
     }
     public void onItemLongCLick(int position, VideoMessage data){
