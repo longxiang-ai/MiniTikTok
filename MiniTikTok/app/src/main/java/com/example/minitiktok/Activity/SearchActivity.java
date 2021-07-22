@@ -68,7 +68,7 @@ public class SearchActivity extends AppCompatActivity implements MyVideoAdapter.
             }
         });
     }
-
+    //加载搜索到的列表
     private void watchlist(String searchtext){
         recyclerView = findViewById(R.id.search_recycler);
         //更改数据时不会变更宽高
@@ -119,7 +119,7 @@ public class SearchActivity extends AppCompatActivity implements MyVideoAdapter.
     }
 
     private VideoListResponse getDataFromInternet(String searchtext , String type ) {
-        Log.i("getDataFromInternet","尝试获取Internet Data,user_name="+searchtext);
+        Log.i("getDataFromInternet","尝试获取Internet Data,user_id="+searchtext);
         String urlStrId , urlStrName, urlStrExtra;
         String urlStr = BASE_URL+"video";
         if ( searchtext!=null )

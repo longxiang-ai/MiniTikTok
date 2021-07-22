@@ -12,23 +12,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ImageButton
-        android:id="@+id/btn_post"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="48dp"
-        android:text="@string/post"
-        android:src="@drawable/btn_post_image"
-        android:scaleType="centerCrop"
-        android:background="@color/colorAccent"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription" >
+
+        <ImageButton
+            android:id="@+id/btn_post"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/btn_post_image"
+            android:scaleType="fitXY"
+            android:background="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:visibility="invisible"/>
+        <ImageButton
+            android:id="@+id/btn_video"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/hload_post"
+            android:scaleType="fitXY"
+            android:background="@color/colorAccent"/>
+
+    </LinearLayout>
+
 
     <ImageButton
         android:id="@+id/btn_search"

@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
     private final static int PERMISSION_REQUEST_CODE = 1001;
     protected ImageButton btn_post;
     protected ImageButton btn_search;
+    protected ImageButton btn_video ;
 
     private static final String TAG = "MainActivity";
     private RecyclerView recyclerView;
@@ -87,6 +88,15 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
                 requestPermission();
                 Intent intent = new Intent(MainActivity.this,PostActivity.class);
                 Log.d(TAG,"跳转至PostActivity");
+                startActivity(intent);
+            }
+        });
+        btn_video = findViewById(R.id.btn_video) ;
+        btn_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, VideoPostActivity.class) ;
+                Log.d(TAG, "onClick: 跳转至VideoPostActivity");
                 startActivity(intent);
             }
         });

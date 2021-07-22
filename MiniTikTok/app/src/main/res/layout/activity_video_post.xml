@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.VideoPostActivity">
+    <ImageView
+        android:id="@+id/sd_cover2"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_margin="30dp"
+        />
+    <TextView
+        android:id="@+id/video_info"
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+    <Button
+        android:id="@+id/btn_cover2"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:text="选择封面"
+        android:layout_gravity="center"/>
+    <Button
+        android:id="@+id/btn_context2"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:text="选择视频"
+        android:layout_gravity="center"/>
+    <Button
+        android:id="@+id/btn_submit2"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:text="提交"
+        android:textSize="30sp" />
+    <TextView
+        android:id="@+id/loading2"
+        android:text="上传中……"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_view2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity ="center"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/hloadings"
+        android:visibility="invisible"
+        />
+</LinearLayout>
