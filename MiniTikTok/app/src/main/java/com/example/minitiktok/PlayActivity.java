@@ -52,7 +52,20 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
         videoView.setMediaController(new MediaController(this));
         videoView.setVideoURI(Uri.parse( VideoUrl ));
         videoView.start();
-
+        // 单击播放暂停，再次单击继续播放
+        videoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (videoView.isPlaying())
+                {
+                    videoView.pause();
+                }
+                else
+                {
+                    videoView.start();
+                }
+            }
+        });
         watchlist();
     }
 
@@ -74,7 +87,7 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
         layoutManager = new LinearLayoutManager(this);
         //创建格网布局管理器
         gridLayoutManager = new GridLayoutManager(this, 2);
-        //设置布局管理器
+        //设置布局管理器，瀑布流播放的效果
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         //创建Adapter
         mAdapter = new MyVideoAdapter();
@@ -82,24 +95,19 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
         mAdapter.setOnItemClickListener(this);
         //设置Adapter
         recyclerView.setAdapter(mAdapter);
-
-//        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        //瀑布流播放的效果
         recyclerView.addItemDecoration(new DividerItemDecoration(this, StaggeredGridLayoutManager.VERTICAL));
         //动画
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setAddDuration(3000);
         recyclerView.setItemAnimator(animator);
-        // ----------------------------拉取信息-------------------
         getData(null);
     }
     public void onItemCLick(int position, VideoMessage data) {
-//        Log.d(TAG, "onItemCLick: 尝试点击该item");
         Toast.makeText(PlayActivity.this, "点击了第" + (position+1) + "条", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(PlayActivity.this,PlayActivity.class);
-        // 将被点击的video url传递给playactivity
+        // 将被点击的video url传递给下一层的playactivity
         intent.putExtra("data",data.getVideoUrl());
-        // TODO 需要在playActivity中用 Intent intent=getIntent(); String VideoUrl=intent.getStringExtra("data");
-        // 来打开对应的VideoUrl数据
         startActivity(intent);
     }
     public void onItemLongCLick(int position, VideoMessage data){
