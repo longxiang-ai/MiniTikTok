@@ -6,23 +6,45 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.minitiktok.recycler.LinearItemDecoration;
-import com.example.minitiktok.recycler.TestData;
-import com.example.minitiktok.recycler.TestDataSet;
-import com.example.minitiktok.recycler.MyAdapter;
+//import com.example.minitiktok.recycler.TestData;
+//import com.example.minitiktok.recycler.TestDataSet;
+//import com.example.minitiktok.recycler.MyAdapter;
 import com.example.minitiktok.ui.search.SearchFragment;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-public class SearchActivity extends AppCompatActivity implements MyAdapter.IOnItemClickListener{
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+
+import static com.example.minitiktok.Constants.BASE_URL;
+
+public class SearchActivity extends AppCompatActivity implements MyVideoAdapter.IOnItemClickListener{
     private static final String TAG = "TAG";
 
     private RecyclerView recyclerView;
-    private MyAdapter mAdapter;
+    private Button search ;
+    private EditText editText ;
+    private MyVideoAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private GridLayoutManager gridLayoutManager;
+    private String ExtraValue ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,34 +54,128 @@ public class SearchActivity extends AppCompatActivity implements MyAdapter.IOnIt
                     .replace(R.id.container, SearchFragment.newInstance())
                     .commitNow();
         }
+        watchlist(null);
 
+        search = findViewById(R.id.search_button) ;
+        editText = findViewById(R.id.search_text) ;
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExtraValue = editText.getText().toString();
+                Toast.makeText(SearchActivity.this,"search for "+ExtraValue,Toast.LENGTH_SHORT).show();
+                watchlist(ExtraValue);
+
+            }
+        });
+    }
+
+    private void watchlist(String searchtext){
         recyclerView = findViewById(R.id.search_recycler);
+        //更改数据时不会变更宽高
         recyclerView.setHasFixedSize(true);
+        //创建线性布局管理器
         layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        //创建格网布局管理器
+        gridLayoutManager = new GridLayoutManager(this, 2);
+        //设置布局管理器
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         //创建Adapter
-        mAdapter = new MyAdapter(TestDataSet.getData());
+        mAdapter = new MyVideoAdapter();
+        //设置Adapter每个item的点击事件
         mAdapter.setOnItemClickListener(this);
         //设置Adapter
         recyclerView.setAdapter(mAdapter);
-        //分割线
-        LinearItemDecoration itemDecoration = new LinearItemDecoration(Color.WHITE);
-        recyclerView.addItemDecoration(itemDecoration);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+//        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, StaggeredGridLayoutManager.VERTICAL));
         //动画
-//        DefaultItemAnimator animator = new DefaultItemAnimator();
-//        animator.setAddDuration(3000);
-//        recyclerView.setItemAnimator(animator);
-    }
-    @Override
-    public void onItemCLick(int position, TestData data) {
-        Toast.makeText(SearchActivity.this, "点击了第" + (position+1) + "条", Toast.LENGTH_SHORT).show();
-//        mAdapter.addData(position + 1, new TestData("新增头条", "0w"));
+        DefaultItemAnimator animator = new DefaultItemAnimator();
+        animator.setAddDuration(3000);
+        recyclerView.setItemAnimator(animator);
+        // ----------------------------拉取信息-------------------
+        getData(searchtext);
     }
 
-//    @Override
-//    public void onItemLongCLick(int position, TestData data) {
-//        Toast.makeText(SearchActivity.this, "长按了第" + position + "条", Toast.LENGTH_SHORT).show();
-//        mAdapter.removeData(position);
-//    }
+    private void getData(String search){
+        Log.i("getData","尝试获取Data1");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("getData","尝试获取Data2");
+                final VideoListResponse response = getDataFromInternet(search,"student_id");
+                if(response != null) {
+                    new Handler(getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.setData(response.feeds);
+                        }
+                    });
+                }else {
+                    Log.i(TAG, "run: nothing about "+search);
+//                    Toast.makeText(SearchActivity.this,"Nothing about "+search,Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).start();
+    }
+
+    private VideoListResponse getDataFromInternet(String searchtext , String type ) {
+        Log.i("getDataFromInternet","尝试获取Internet Data,user_name="+searchtext);
+        String urlStrId , urlStrName, urlStrExtra;
+        String urlStr = BASE_URL+"video";
+        if ( searchtext!=null )
+            urlStr = String.format("%svideo?%s=%s",BASE_URL,type,searchtext) ;
+//        String urlStrTar = BASE_URL+"video?"+type+"="+searchtext ;
+//        urlStrId = BASE_URL+"video"+"?student_id="+searchtext;
+//        urlStrName = BASE_URL+"video"+"?user_name="+searchtext;
+//        urlStrExtra = BASE_URL+"video"+"?extra_value="+searchtext;
+        Log.i(TAG, "getDataFromInternet: "+urlStr);
+        VideoListResponse result = null ;
+            try {
+                URL url = new URL(urlStr);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(5000);
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("accept", Constants.token);
+                if (conn.getResponseCode() == 200) {
+                    InputStream in = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+                    result = new Gson().fromJson(reader, new TypeToken<VideoListResponse>() {}.getType());
+                    reader.close();
+                    in.close();
+                    Log.i(TAG, "getDataFromInternet: search for "+searchtext+" --- over");
+                } else {
+                    Exception exception = new Exception("网络未知错误");
+                    conn.disconnect();
+                    throw exception;
+                }
+                conn.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(SearchActivity.this, "网络异常" + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+//        Toast.makeText(SearchActivity.this,"Totally :"+result.feeds.size(),Toast.LENGTH_SHORT).show();
+        Log.i(TAG, "getDataFromInternet: totally there are "+result.feeds.size()+"contexts");
+        return result;
+    }
+
+    public void onItemCLick(int position, VideoMessage data) {
+//        Log.d(TAG, "onItemCLick: 尝试点击该item");
+        Toast.makeText(SearchActivity.this, "点击了第" + (position+1) + "条", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(SearchActivity.this,PlayActivity.class);
+        // 将被点击的video url传递给playactivity
+        intent.putExtra("data",data.getVideoUrl());
+        // TODO 需要在playActivity中用 Intent intent=getIntent(); String VideoUrl=intent.getStringExtra("data");
+        // 来打开对应的VideoUrl数据
+        startActivity(intent);
+    }
+    public void onItemLongCLick(int position, VideoMessage data){
+        Toast.makeText(SearchActivity.this, "长按了第" + (position+1) + "条", Toast.LENGTH_SHORT).show();
+    }
+
 }
+
