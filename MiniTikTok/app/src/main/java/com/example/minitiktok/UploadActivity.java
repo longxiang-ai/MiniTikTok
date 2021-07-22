@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -62,8 +63,8 @@ public class UploadActivity extends AppCompatActivity {
     private String videoPath;
 
     private ImageView coverSD;
-    private EditText toEditText;
-    private EditText contentEditText ;
+    private Button BTN_COVER;
+    private Button BTN_SUBMIT ;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,7 +86,14 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submit();
-
+                BTN_COVER = findViewById(R.id.btn_cover) ;
+                BTN_SUBMIT = findViewById(R.id.btn_submit) ;
+                BTN_COVER.setVisibility(View.GONE);
+                BTN_SUBMIT.setVisibility(View.GONE);
+                View loading = findViewById(R.id.lottie_view) ;
+                loading.setVisibility(View.VISIBLE);
+                View text = findViewById(R.id.loading) ;
+                text.setVisibility(View.VISIBLE);
             }
         });
         // ------------------------------ 选择视频路径 -------------------------------
@@ -170,6 +178,7 @@ public class UploadActivity extends AppCompatActivity {
                         return;
                     }
 
+                    Toast.makeText(UploadActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 @Override
@@ -200,5 +209,9 @@ public class UploadActivity extends AppCompatActivity {
         return data;
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        Toast.makeText(this,"上传成功！",Toast.LENGTH_SHORT).show();
+    }
 }

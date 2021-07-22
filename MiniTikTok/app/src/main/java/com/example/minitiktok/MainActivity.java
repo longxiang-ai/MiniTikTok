@@ -227,8 +227,8 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
         }
     }
 
-    public void onResume(){
-        super.onResume();
+    public void onStart(){
+        super.onStart();
         getData(null);
     }
 }

@@ -34,6 +34,8 @@ dependencies {
     // glide 依赖
     implementation 'com.github.bumptech.glide:glide:4.9.0'
 //    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    // lottie 依赖
+    implementation 'com.airbnb.android:lottie:2.7.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
