@@ -226,4 +226,9 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
             Toast.makeText(this, "权限获取失败", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void onResume(){
+        super.onResume();
+        getData(null);
+    }
 }
