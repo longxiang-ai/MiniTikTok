@@ -15,10 +15,12 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -36,7 +38,8 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
     String Default_Url = "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4";
     private RecyclerView recyclerView;
     private MyVideoAdapter mAdapter;
-    private Button exit ;
+    private ImageButton exit ;
+    private LottieAnimationView nice ;
     private RecyclerView.LayoutManager layoutManager;
     private GridLayoutManager gridLayoutManager;
     VideoView videoView ;
@@ -47,6 +50,7 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
         String VideoUrl=getIntent().getStringExtra("data");
 
         exitMain();
+        watchlist();
 
         videoView = findViewById(R.id.play_video) ;
         videoView.setMediaController(new MediaController(this));
@@ -66,7 +70,21 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
                 }
             }
         });
-        watchlist();
+        videoView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                nice = findViewById(R.id.nice_view) ;
+                nice.setVisibility(View.VISIBLE);
+                nice.playAnimation();
+                nice.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        nice.setVisibility(View.INVISIBLE);
+                    }
+                },2000);
+                return true;
+            }
+        });
     }
 
     private void exitMain(){
