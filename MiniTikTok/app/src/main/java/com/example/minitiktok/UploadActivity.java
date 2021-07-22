@@ -178,24 +178,22 @@ public class UploadActivity extends AppCompatActivity {
                     if (repoList == null) {
                         return;
                     }
-
                     Toast.makeText(UploadActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
-                    finish();
+                    Intent intent = new Intent(UploadActivity.this,MainActivity.class);
+                    startActivity(intent);
+//                    finish();
                 }
                 @Override
                 public void onFailure(final Call<UploadResponse> call, final Throwable t) {
                     t.printStackTrace();
                 }
             });
-
-//            Toast.makeText(this,"试一下行不行",Toast.LENGTH_SHORT).show();
         }
         catch (Exception e)
         {
             Log.i("upload","尝试上传失败");
             Toast.makeText(this,e.toString(),Toast.LENGTH_SHORT).show();
         }
-//        finish();
     }
     
     private byte[] readDataFromUri(Uri uri) {
