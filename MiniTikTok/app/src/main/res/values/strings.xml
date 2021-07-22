@@ -6,4 +6,5 @@
     <string name="video_cover_description">显示封面图</string>
     <string name="take_photo">拍照</string>
     <string name="record">录像</string>
+    <string name="upload">上传</string>
 </resources>
