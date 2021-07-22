@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
@@ -78,17 +79,14 @@ public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoVie
     public static class VideoViewHolder extends RecyclerView.ViewHolder{
         private ImageView iv_video_cover;
         private TextView tv_poster;
-        private TextView tv_title;
-        private TextView tv_hot;
-
+        private TextView tv_date;
         private View contentView;
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
             contentView = itemView;
-            tv_hot = itemView.findViewById(R.id.tv_hot);
+            tv_date = itemView.findViewById(R.id.tv_date);
             tv_poster = itemView.findViewById(R.id.tv_poster);
-            tv_title = itemView.findViewById(R.id.tv_title);
             iv_video_cover = itemView.findViewById(R.id.video_cover);
         }
         public void onBind(int position ,VideoMessage videoMessage){
@@ -110,9 +108,15 @@ public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoVie
                     .transition(withCrossFade())
                     .into(iv_video_cover)
             ;
-            tv_title.setText(videoMessage.getUser_name()+"发布的作品");
             tv_poster.setText(videoMessage.getUser_name());
-            tv_hot.setText(videoMessage.getCreatedAt().toString());
+            Date date = videoMessage.getCreatedAt();
+            int year = date.getYear()+1900;
+            int month = date.getMonth()+1;
+            int day = date.getDay();
+            int hour = date.getHours();
+            int minute = date.getMinutes();
+            String dateData = ""+year+"年"+month+"月"+day+"日"+hour+":"+minute;
+            tv_date.setText(dateData);
         }
 
         private static int getScreenWidth(Context context) {
