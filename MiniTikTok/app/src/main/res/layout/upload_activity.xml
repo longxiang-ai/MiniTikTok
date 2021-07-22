@@ -18,6 +18,13 @@
         android:text="选择封面"
         android:layout_gravity="center"
         />
+    <Button
+        android:id="@+id/btn_cover_auto"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="自动生成封面"
+        android:layout_gravity="center"
+        />
 
     <Button
         android:id="@+id/btn_submit"

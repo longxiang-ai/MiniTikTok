@@ -3,6 +3,9 @@ package com.example.minitiktok.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +24,7 @@ import com.example.minitiktok.API.VideoAPI;
 import com.example.minitiktok.R;
 import com.example.minitiktok.Util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 
@@ -37,6 +41,8 @@ import static com.example.minitiktok.Constants.BASE_URL;
 import static com.example.minitiktok.Constants.STUDENT_ID;
 import static com.example.minitiktok.Constants.USER_NAME;
 import static com.example.minitiktok.Constants.token;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 
 public class UploadActivity extends AppCompatActivity {
@@ -46,7 +52,9 @@ public class UploadActivity extends AppCompatActivity {
     private static final String COVER_IMAGE_TYPE = "image/*";
     private static final String VIDEO_TYPE = "video/*";
     private VideoAPI api;
-    private Uri coverImageUri;
+    private Uri coverImageUri = null;
+    byte[] coverImageData;
+    Bitmap coverImageBitmap;
     private String videoPath;
 
     private ImageView coverSD;
@@ -66,6 +74,14 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getFile(REQUEST_CODE_COVER_IMAGE, COVER_IMAGE_TYPE, "选择图片");
+            }
+        });
+
+        findViewById(R.id.btn_cover_auto).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                coverImageData = getCoverImageAuto();
+                coverSD.setImageBitmap(coverImageBitmap);
             }
         });
 
@@ -97,6 +113,9 @@ public class UploadActivity extends AppCompatActivity {
         if (REQUEST_CODE_COVER_IMAGE == requestCode) {
             if (resultCode == Activity.RESULT_OK) {
                 coverImageUri = data.getData();
+                // --------------- 调整设置逻辑 -----------------
+                coverImageData = readDataFromUri(coverImageUri);
+                // --------------- 调整设置逻辑 -----------------
                 coverSD.setImageURI(coverImageUri);
                 Log.d(TAG, "onActivityResult: 成功设置????");
                 if (coverImageUri != null) {
@@ -129,9 +148,26 @@ public class UploadActivity extends AppCompatActivity {
         startActivityForResult(intent, requestCode);
     }
 
+    private byte[] getCoverImageAuto(){
+        MediaMetadataRetriever mmdr = new MediaMetadataRetriever();
+        mmdr.setDataSource(videoPath);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        coverImageBitmap = mmdr.getFrameAtTime();
+        coverImageBitmap = zoomBitmap(coverImageBitmap,min(getWindow().getWindowManager().getDefaultDisplay().getWidth()/2,coverImageBitmap.getWidth()),min(400,coverImageBitmap.getHeight()));
+        coverImageBitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+    public static Bitmap zoomBitmap(Bitmap bitmap, int width, int height) {
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+        Matrix matrix = new Matrix();
+        float scaleWidth = ((float) width / w);
+        float scaleHeight = ((float) height / h);
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
+        return newbmp;
+    }
     private void submit() {
-
-        byte[] coverImageData = readDataFromUri(coverImageUri);
         if (coverImageData == null || coverImageData.length == 0) {
             Toast.makeText(this, "封面不存在", Toast.LENGTH_SHORT).show();
             return;
@@ -145,7 +181,12 @@ public class UploadActivity extends AppCompatActivity {
                 "cover.png",
                 RequestBody.create(MediaType. parse ("multipart/form-data"),
                         coverImageData));
-        Toast.makeText(this, "现在选择的图片："+coverImageUri.toString(), Toast.LENGTH_SHORT).show();
+        if (coverImageUri!=null)
+            Toast.makeText(this, "现在选择的图片："+coverImageUri.toString(), Toast.LENGTH_SHORT).show();
+        else
+        {
+            Toast.makeText(this, "现在选择的图片：视频首帧", Toast.LENGTH_SHORT).show();
+        }
         // 视频信息选择
         MultipartBody.Part _videoPart = MultipartBody.Part.createFormData ("video",
                 "video.mp4",
