@@ -13,6 +13,7 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -94,7 +95,13 @@ public class PostActivity extends AppCompatActivity implements SurfaceHolder.Cal
             parameters.set("orientation", "portrait");
             parameters.set("rotation", 90);
             mCamera.setParameters(parameters);
-            mCamera.setDisplayOrientation(90);
+            // 判断是否为横屏，而决定是否进行旋转
+            DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+            boolean isPortrait = dm.widthPixels < dm.heightPixels;
+            if(isPortrait)
+            {
+                mCamera.setDisplayOrientation(90);
+            }
         }
 
         @Override
@@ -192,7 +199,9 @@ public class PostActivity extends AppCompatActivity implements SurfaceHolder.Cal
         }
 
         private void releaseMediaRecorder() {
+//            mMediaRecorder.stop();
             mMediaRecorder.release();
+            mMediaRecorder=null;
         }
 
         private String getOutputMediaPath() {
