@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_margin="20dp"
+
         />
     <Button
         android:id="@+id/btn_cover"
@@ -17,13 +18,16 @@
         android:layout_height="48dp"
         android:text="选择封面"
         android:layout_gravity="center"
+        android:background="@drawable/selector_button"
         />
     <Button
         android:id="@+id/btn_cover_auto"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="48dp"
+        android:layout_marginTop="20dp"
         android:text="自动生成封面"
         android:layout_gravity="center"
+        android:background="@drawable/selector_button"
         />
 
     <Button
@@ -33,7 +37,9 @@
         android:layout_gravity="center"
         android:layout_marginTop="60dp"
         android:text="提交"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:background="@drawable/selector_button"
+        />
     <TextView
         android:id="@+id/loading"
         android:text="上传中……"
@@ -49,7 +55,7 @@
         android:layout_gravity ="center"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/hloadings"
+        app:lottie_rawRes="@raw/img_loadings"
         android:visibility="invisible"
         />
 </LinearLayout>

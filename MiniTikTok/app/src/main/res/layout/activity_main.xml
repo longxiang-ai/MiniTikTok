@@ -26,21 +26,19 @@
             android:id="@+id/btn_post"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/button_post2"
+            android:src="@drawable/btn_post_transparent"
             android:scaleType="fitXY"
             android:background="#00000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-        <ImageButton
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:visibility="invisible"/>
+
         <ImageButton
             android:id="@+id/btn_video"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/btn_video_post"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/btn_video_post_transparent"
             android:scaleType="fitXY"
             android:background="#00000000"/>
 
@@ -52,8 +50,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
 
-        android:src="@drawable/btn_search_button2"
-        android:background="@android:color/transparent"
+        android:src="@drawable/btn_search_transparent"
+        android:background="#00000000"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.978"

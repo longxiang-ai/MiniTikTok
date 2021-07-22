@@ -29,7 +29,7 @@
             app:layout_constraintBottom_toBottomOf="@id/play_video"
             app:lottie_autoPlay="false"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/hfeedback1"/>
+            app:lottie_rawRes="@raw/img_feedback1"/>
 
 
         <ImageButton
@@ -37,7 +37,8 @@
             android:scaleType="fitXY"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/hexit"
+            android:src="@drawable/btn_exit_transparent"
+            android:background="#00000000"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 

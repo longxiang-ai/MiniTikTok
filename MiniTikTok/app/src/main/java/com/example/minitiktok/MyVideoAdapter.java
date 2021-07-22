@@ -104,9 +104,9 @@ public class MyVideoAdapter extends RecyclerView.Adapter<MyVideoAdapter.VideoVie
             Glide.with(contentView)
                     .load(videoMessage.getImageUrl())
                     .centerCrop()
-                    .placeholder(R.drawable.btn_post_image) // 兜底占位图
-                    .error(R.drawable.btn_post_image)       // 加载错误图
-                    .fallback(R.drawable.btn_post_image)    // loading图片
+                    .placeholder(R.drawable.tiktok_cover) // 兜底占位图
+                    .error(R.drawable.tiktok_cover)       // 加载错误图
+                    .fallback(R.drawable.tiktok_cover)    // loading图片
                     .transition(withCrossFade())
                     .into(iv_video_cover)
             ;

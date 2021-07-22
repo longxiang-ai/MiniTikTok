@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements MyVideoAdapter.IO
 
     private void initButtons() {
         btn_post = findViewById(R.id.btn_post);
+
         btn_post.getBackground().setAlpha(0);
         btn_post.setOnClickListener(new View.OnClickListener() {
             @Override
