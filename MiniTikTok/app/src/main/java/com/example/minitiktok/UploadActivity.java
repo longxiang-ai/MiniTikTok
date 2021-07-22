@@ -179,9 +179,16 @@ public class UploadActivity extends AppCompatActivity {
                         return;
                     }
                     Toast.makeText(UploadActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(UploadActivity.this,MainActivity.class);
-                    startActivity(intent);
-//                    finish();
+                    // 上传完成后略微延迟再返回MainActivity，替换原先的finish
+                    Handler handler=new Handler();
+                    Runnable runnable=new Runnable(){
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(UploadActivity.this,MainActivity.class);
+                            startActivity(intent);
+                        }
+                    };
+                    handler.postDelayed(runnable, 2000);
                 }
                 @Override
                 public void onFailure(final Call<UploadResponse> call, final Throwable t) {
