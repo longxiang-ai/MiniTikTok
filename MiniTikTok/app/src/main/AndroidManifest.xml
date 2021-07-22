@@ -16,7 +16,9 @@
         <activity android:name=".PostActivity"></activity>
         <activity android:name=".SearchActivity" />
         <activity android:name=".PlayActivity" />
-        <activity android:name=".UploadActivity" />
+        <activity android:name=".UploadActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

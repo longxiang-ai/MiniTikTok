@@ -60,8 +60,7 @@ public class UploadActivity extends AppCompatActivity {
     private VideoAPI api;
     private Uri coverImageUri;
     private String videoPath;
-//    private Uri videoUri;
-//    private SimpleDraweeView coverSD;
+
     private ImageView coverSD;
     private EditText toEditText;
     private EditText contentEditText ;
@@ -74,8 +73,7 @@ public class UploadActivity extends AppCompatActivity {
         initNetwork();
         setContentView(R.layout.upload_activity);
         coverSD = findViewById(R.id.sd_cover);
-//        toEditText = findViewById(R.id.et_to);
-//        contentEditText = findViewById(R.id.et_content);
+
         findViewById(R.id.btn_cover).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +91,6 @@ public class UploadActivity extends AppCompatActivity {
         Intent intent=getIntent();
         videoPath =intent.getStringExtra("videoPath");
         Log.d(TAG, "onCreate: 拿到的videoPath"+videoPath);
-//        videoUri = new Uri(videoUri.parse(videoPath))
     }
 
 
@@ -136,6 +133,7 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     private void submit() {
+
         byte[] coverImageData = readDataFromUri(coverImageUri);
         if (coverImageData == null || coverImageData.length == 0) {
             Toast.makeText(this, "封面不存在", Toast.LENGTH_SHORT).show();
@@ -146,15 +144,17 @@ public class UploadActivity extends AppCompatActivity {
             return;
         }
         // 封面图选择
-        MultipartBody.Part _coverPart = MultipartBody.Part. createFormData ("image",
+        MultipartBody.Part _coverPart = MultipartBody.Part.createFormData ("cover_image",
                 "cover.png",
                 RequestBody.create(MediaType. parse ("multipart/form-data"),
                         coverImageData));
+        Toast.makeText(this, "现在选择的图片："+coverImageUri.toString(), Toast.LENGTH_SHORT).show();
         // 视频信息选择
-        MultipartBody.Part _videoPart = MultipartBody.Part. createFormData ("video",
+        MultipartBody.Part _videoPart = MultipartBody.Part.createFormData ("video",
                 "video.mp4",
                 RequestBody.create(MediaType. parse ("multipart/form-data"),
                         new File(videoPath)));
+        Toast.makeText(this, "现在选择的视频："+videoPath, Toast.LENGTH_SHORT).show();
         try{
             Log.i("upload","尝试上传");
             Call<UploadResponse> repos = api.submitMessage(STUDENT_ID,USER_NAME,"",_coverPart,_videoPart,token);

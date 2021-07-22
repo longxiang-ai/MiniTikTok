@@ -39,7 +39,7 @@ public class PostActivity extends AppCompatActivity implements SurfaceHolder.Cal
         private Button mUploadButton;
         private boolean isRecording = false;
         private static String TAG = "PostActivity";
-        private String mp4Path = "123";
+        private String mp4Path = "";
 
         public static void startUI(Context context) {
             Intent intent = new Intent(context, PostActivity.class);
