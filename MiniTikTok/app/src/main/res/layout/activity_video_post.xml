@@ -22,12 +22,19 @@
         android:layout_width="100dp"
         android:layout_height="48dp"
         android:text="选择封面"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:background="@drawable/selector_button"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="center"/>
     <Button
         android:id="@+id/btn_context2"
         android:layout_width="100dp"
         android:layout_height="48dp"
+        android:background="@drawable/selector_button"
         android:text="选择视频"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:layout_gravity="center"/>
     <Button
         android:id="@+id/btn_submit2"
@@ -36,6 +43,9 @@
         android:layout_gravity="center"
         android:layout_marginTop="60dp"
         android:text="提交"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:background="@drawable/selector_button"
         android:textSize="30sp" />
     <TextView
         android:id="@+id/loading2"
