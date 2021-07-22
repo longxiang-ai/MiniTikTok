@@ -35,13 +35,11 @@ import static com.example.minitiktok.Constants.BASE_URL;
 
 public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IOnItemClickListener {
 
-    String Default_Url = "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4";
     private RecyclerView recyclerView;
     private MyVideoAdapter mAdapter;
     private ImageButton exit ;
     private LottieAnimationView nice ;
-    private RecyclerView.LayoutManager layoutManager;
-    private GridLayoutManager gridLayoutManager;
+
     VideoView videoView ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,10 +107,7 @@ public class PlayActivity extends AppCompatActivity implements MyVideoAdapter.IO
         recyclerView = findViewById(R.id.play_recycler);
         //更改数据时不会变更宽高
         recyclerView.setHasFixedSize(true);
-        //创建线性布局管理器
-        layoutManager = new LinearLayoutManager(this);
-        //创建格网布局管理器
-        gridLayoutManager = new GridLayoutManager(this, 2);
+
         //设置布局管理器，瀑布流播放的效果
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         //创建Adapter
