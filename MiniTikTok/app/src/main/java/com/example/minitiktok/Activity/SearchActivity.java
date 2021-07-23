@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.minitiktok.Constants;
@@ -39,28 +40,28 @@ public class SearchActivity extends AppCompatActivity implements MyVideoAdapter.
     private Button search ;
     private EditText editText ;
     private MyVideoAdapter mAdapter;
-
+    private ImageView img_no_found;
     private String ExtraValue ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
         watchlist(null);
-
+        img_no_found=findViewById(R.id.img_no_found);
         search = findViewById(R.id.search_button) ;
         editText = findViewById(R.id.search_text) ;
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ExtraValue = editText.getText().toString();
-                Toast.makeText(SearchActivity.this,"search for "+ExtraValue,Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this,"寻找学号："+ExtraValue,Toast.LENGTH_SHORT).show();
                 watchlist(ExtraValue);
-
             }
         });
     }
     //加载搜索到的列表
     private void watchlist(String searchtext){
+
         recyclerView = findViewById(R.id.search_recycler);
         //更改数据时不会变更宽高
         recyclerView.setHasFixedSize(true);
@@ -90,15 +91,28 @@ public class SearchActivity extends AppCompatActivity implements MyVideoAdapter.
                 Log.i("getData","尝试获取Data2");
                 final VideoListResponse response = getDataFromInternet(search,"student_id");
                 if(response != null) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!response.feeds.isEmpty())
+                            {
+                                recyclerView.setVisibility(View.VISIBLE);
+                                img_no_found.setVisibility(View.GONE);
+                            }
+                            else
+                            {
+                                img_no_found.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                                Toast.makeText(SearchActivity.this,"很抱歉没有找到",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                     new Handler(getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
                             mAdapter.setData(response.feeds);
                         }
                     });
-                }else {
-                    Log.i(TAG, "run: nothing about "+search);
-//                    Toast.makeText(SearchActivity.this,"Nothing about "+search,Toast.LENGTH_SHORT).show();
                 }
             }
         }).start();
